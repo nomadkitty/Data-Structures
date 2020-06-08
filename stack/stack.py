@@ -26,8 +26,8 @@ class Stack:
 
     def push(self, value):
         # 1. use array as storage
-        # self.storage.insert(0, value)
         # self.size += 1
+        # self.storage.append(value)
         # 2. use LinkedList as storage
         self.size += 1
         self.storage.add_to_tail(value)
@@ -37,11 +37,8 @@ class Stack:
         # if self.size == 0:
         #     return None
         # else:
-        #     value = self.storage[0]
-        #     self.storage.remove(value)
         #     self.size -= 1
-        #     return value
-
+        #     return self.storage.pop()
         # 2. use LinkedList as storage
         if self.size == 0:
             return None
