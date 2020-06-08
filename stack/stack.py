@@ -16,22 +16,23 @@ from singly_linked_list import LinkedList
 class Stack:
     def __init__(self):
         self.size = 0
+        # 1. use array as storage
         self.storage = []
 
     def __len__(self):
         return self.size
 
     def push(self, value):
-        # append value to storage
+        # 1. use array as storage
         self.storage.insert(0, value)
         self.size += 1
 
     def pop(self):
+        # 1. use array as storage
         if self.size == 0:
             return None
         else:
             value = self.storage[0]
-            self.storage.remove(self.storage[0])
+            self.storage.remove(value)
             self.size -= 1
             return value
-
