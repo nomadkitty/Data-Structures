@@ -17,22 +17,34 @@ class Stack:
     def __init__(self):
         self.size = 0
         # 1. use array as storage
-        self.storage = []
+        # self.storage = []
+        # 2. use LinkedList as storage
+        self.storage = LinkedList()
 
     def __len__(self):
         return self.size
 
     def push(self, value):
         # 1. use array as storage
-        self.storage.insert(0, value)
+        # self.storage.insert(0, value)
+        # self.size += 1
+        # 2. use LinkedList as storage
         self.size += 1
+        self.storage.add_to_tail(value)
 
     def pop(self):
         # 1. use array as storage
+        # if self.size == 0:
+        #     return None
+        # else:
+        #     value = self.storage[0]
+        #     self.storage.remove(value)
+        #     self.size -= 1
+        #     return value
+
+        # 2. use LinkedList as storage
         if self.size == 0:
             return None
         else:
-            value = self.storage[0]
-            self.storage.remove(value)
             self.size -= 1
-            return value
+            return self.storage.remove_tail()
