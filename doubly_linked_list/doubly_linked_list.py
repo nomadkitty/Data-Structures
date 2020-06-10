@@ -75,24 +75,8 @@ class DoublyLinkedList:
     Returns the value of the removed Node."""
 
     def remove_from_head(self):
-        # check if the DLL is empty
-        if not self.head and self.tail:
-            return None
-        # check if the DLL only has one node
-        if self.length == 1:
-            # get a reference of current head
-            value = self.head.value
-            # delete the head pointer
-            self.head = None
-            # delete the tail pointer
-            self.tail = None
-            self.length -= 1
-            return value
-        # otherwise get the current head reference
         value = self.head.value
-        self.head.next.prev = None
-        self.head = self.head.next
-        self.length -= 1
+        self.delete(self.head)
         return value
 
     """Wraps the given value in a ListNode and inserts it
@@ -120,18 +104,8 @@ class DoublyLinkedList:
     Returns the value of the removed Node."""
 
     def remove_from_tail(self):
-        if not self.head and self.tail:
-            return None
-        if self.length == 1:
-            value = self.tail.value
-            self.head = None
-            self.tail = None
-            self.length -= 1
-            return value
         value = self.tail.value
-        self.tail.delete()
-        self.tail = self.tail.prev
-        self.length -= 1
+        self.delete(self.tail)
         return value
 
     """Removes the input node from its current spot in the
@@ -167,12 +141,29 @@ class DoublyLinkedList:
     the node was the head or the tail"""
 
     def delete(self, node):
+        # if DLL is empty there's nothing to delete, we should return
+        if not self.head and not self.tail:
+            return
+
+        # decrement length of DLL
+        # would allow DLL to have a negative length
         self.length -= 1
-        if node is self.head:
+
+        # if DLL has one element, remove it by setting head and tail pointers to None
+        if self.head == self.tail:
+            self.head = None
+            self.tail = None
+        # if node to delete is head, set DLL head pointer to node.next
+        elif self.head == node:
             self.head = node.next
-        if node is self.tail:
+            node.delete()
+        # if node to delete is tail, set DLL tail pointer to node.prev
+        elif self.tail == node:
             self.tail = node.prev
-        node.delete()
+            node.delete()
+        # more than 3 nodes in our DLL, and not head or tail
+        else:
+            node.delete()
 
     """Returns the highest value currently in the list"""
 
