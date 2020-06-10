@@ -58,17 +58,15 @@ class DoublyLinkedList:
     def add_to_head(self, value):
         # create a new node
         new_node = ListNode(value, None, None)
-
+        self.length += 1
         # check if the DLL is empty
-        if not self.head and self.tail:
+        if not self.head and not self.tail:
             self.head = new_node
             self.tail = new_node
-            self.length += 1
         else:
             new_node.next = self.head
             self.head.prev = new_node
             self.head = new_node
-            self.length += 1
 
     """Removes the List's current head node, making the
     current head's next node the new head of the List.
@@ -88,7 +86,7 @@ class DoublyLinkedList:
         new_node = ListNode(value, None, None)
         self.length += 1
         # check if the DLL is empty
-        if not self.head and self.tail:
+        if not self.head and not self.tail:
             self.head = new_node
             self.tail = new_node
         # we have a non-empty list and add the new node to the tail
@@ -112,30 +110,30 @@ class DoublyLinkedList:
     List and inserts it as the new head node of the List."""
 
     def move_to_front(self, node):
-        if self.length > 1:
-            node.prev = None
-            node.next = self.head
-            self.head.prev = node
-            self.head.next = node.next
-            self.head = node
+        if node is self.head:
+            return
+        value = node.value
+        if node is self.tail:
+            self.remove_from_tail()
         else:
-            self.head = node
-            self.tail = node
+            node.delete()
+            self.length -= 1
+        self.add_to_head(value)
 
     """Removes the input node from its current spot in the
     List and inserts it as the new tail node of the List."""
 
     def move_to_end(self, node):
-        if self.length > 1:
-            node.prev.next = self.tail
-            node.prev = self.tail
-            node.next = None
-            self.tail.prev = node.prev
-            self.tail.next = node
-            self.tail = node
+        if node is self.tail:
+            return
+        value = node.value
+        if node is self.head:
+            self.remove_from_head()
+            self.add_to_tail(value)
         else:
-            self.head = node
-            self.tail = node
+            node.delete()
+            self.length -= 1
+            self.add_to_tail(value)
 
     """Removes a node from the list and handles cases where
     the node was the head or the tail"""
@@ -144,11 +142,9 @@ class DoublyLinkedList:
         # if DLL is empty there's nothing to delete, we should return
         if not self.head and not self.tail:
             return
-
         # decrement length of DLL
         # would allow DLL to have a negative length
         self.length -= 1
-
         # if DLL has one element, remove it by setting head and tail pointers to None
         if self.head == self.tail:
             self.head = None
@@ -168,12 +164,12 @@ class DoublyLinkedList:
     """Returns the highest value currently in the list"""
 
     def get_max(self):
-        max = 0
-        if self.length:
-            current = self.head
-            max = current.value
-        while current.next:
-            if current.next.value > max:
-                max = current.next.value
+        if not self.head:
+            return None
+        max_val = self.head.value
+        current = self.head
+        while current:
+            if current.value > max_val:
+                max_val = current.value
             current = current.next
-        return max
+        return max_val
