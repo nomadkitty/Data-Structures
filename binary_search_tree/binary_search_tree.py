@@ -18,17 +18,18 @@ class BSTNode:
         self.right = None
 
     # Insert the given value into the tree
+    # Insert doesn't need return statement since it doesn't need to return and value our of the function.  recursion will just pop off in the call stack
     def insert(self, value):
         if value < self.value:
             if self.left is None:
                 self.left = BSTNode(value)
             else:
-                return self.left.insert(value)
+                self.left.insert(value)
         else:
             if self.right is None:
                 self.right = BSTNode(value)
             else:
-                return self.right.insert(value)
+                self.right.insert(value)
 
     # Return True if the tree contains the value
     # False if it does not
@@ -36,31 +37,31 @@ class BSTNode:
         if target == self.value:
             return True
         if target > self.value:
-            if self.right:
-                return self.right.contains(target)
-            else:
-                False
-        if target < self.value:
-            if self.left:
-                return self.contains(target)
-            else:
+            if self.right is None:
                 return False
+            else:
+                return self.right.contains(target)
+        if target < self.value:
+            if self.left is None:
+                return False
+            else:
+                return self.left.contains(target)
 
     # Return the maximum value found in the tree
     def get_max(self):
-        if self.right:
-            return self.right.get_max()
-        else:
+        if self.right is None:
             return self.value
+        else:
+            return self.right.get_max()
 
     # Call the function `fn` on the value of each node
     def for_each(self, fn):
         # if there is right node, run the for each again
         # if there is left node, run the for each again
         fn(self.value)
-        if self.left:
+        if self.left is not None:
             self.left.for_each(fn)
-        if self.right:
+        if self.right is not None:
             self.right.for_each(fn)
 
     # Part 2 -----------------------
