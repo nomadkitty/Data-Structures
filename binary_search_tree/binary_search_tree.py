@@ -9,6 +9,8 @@ This part of the project comprises two days:
 2. Implement the `in_order_print`, `bft_print`, and `dft_print` methods
    on the BSTNode class.
 """
+from stack import Stack
+from queue import Queue
 
 
 class BSTNode:
@@ -70,22 +72,87 @@ class BSTNode:
     # Hint:  Use a recursive, depth first traversal
 
     def in_order_print(self, node):
-        pass
+        # Lowest number is always the furthest to the left
+        # base case:
+        if node is None:
+            return
+        # if left is none & right is none
+            # print node.value
+        if node.left is None and node.right is None:
+            print(node.value)
+        # if left is none and right is not none
+            # print node.value
+            # point to right
+        if node.left is None and node.right is not None:
+            print(node.value)
+            self.in_order_print(node.right)
+        # if left is not none and right is none
+            # point to node.left
+            # print node.value
+        if node.left is not None and node.right is None:
+            self.in_order_print(node.left)
+            print(node.value)
+        # if left is not none and right is not none
+            # point to node.left
+            # print node.value
+            # point to node.right
+        if node.left is not None and node.right is not None:
+            self.in_order_print(node.left)
+            print(node.value)
+            self.in_order_print(node.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self, node):
-        pass
+        # use a queue
+        # start queue with root node
+        queue = Queue()
+        queue.enqueue(node)
+        # while loop that checks size of queue
+        # pointer variable that updates at the begining of each loop
+        while queue.size > 0:
+            # if node has a right but not a left
+            # enqueue the node
+            # point to the right
+            if node.left is None and node.right:
+                queue.enqueue(node)
+                node = node.right
+            # if node has a left and a right
+            # enqueue the node
+            # point to the left
+            # point to the right
+            if node.left and node.right:
+                queue.enqueue(node)
+                self.bft_print(node.left)
+                self.bft_print(node.right)
+            # if node has a left but not a right
+            # enqueue the node
+            # point to the left
+            if node.left and node.right is None:
+                queue.enqueue(node)
+                self.bft_print(node.left)
+            # if node has no left and no right
+            # endque the node
+            # break the loop
+            if node.left is None and node.right is None:
+                queue.enqueue(node)
+                break
+        return print(queue)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
         pass
+        # stack
+        # start stack with the root node
+        # while loop that check stack size
+        # pointer
 
     # Stretch Goals -------------------------
     # Note: Research may be required
 
     # Print Pre-order recursive DFT
+
     def pre_order_dft(self, node):
         pass
 
