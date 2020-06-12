@@ -110,43 +110,33 @@ class BSTNode:
         queue.enqueue(node)
         # while loop that checks size of queue
         # pointer variable that updates at the begining of each loop
+        # while the queue exists, drop a node from the queue and print its value
         while queue.size > 0:
-            # if node has a right but not a left
-            # enqueue the node
-            # point to the right
-            if node.left is None and node.right:
-                queue.enqueue(node)
-                node = node.right
-            # if node has a left and a right
-            # enqueue the node
-            # point to the left
-            # point to the right
-            if node.left and node.right:
-                queue.enqueue(node)
-                self.bft_print(node.left)
-                self.bft_print(node.right)
-            # if node has a left but not a right
-            # enqueue the node
-            # point to the left
-            if node.left and node.right is None:
-                queue.enqueue(node)
-                self.bft_print(node.left)
-            # if node has no left and no right
-            # endque the node
-            # break the loop
-            if node.left is None and node.right is None:
-                queue.enqueue(node)
-                break
-        return print(queue)
+            node = queue.dequeue()
+            print(node.value)
+            # there is a left branch, add the left node to the queue
+            if node.left:
+                queue.enqueue(node.left)
+            # same for the right
+            if node.right:
+                queue.enqueue(node.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
-        pass
         # stack
         # start stack with the root node
+        stack = Stack()
+        stack.push(node)
         # while loop that check stack size
         # pointer
+        while stack.size > 0:
+            node = stack.pop()
+            print(node.value)
+            if node.left:
+                stack.push(node.left)
+            if node.right:
+                stack.push(node.right)
 
     # Stretch Goals -------------------------
     # Note: Research may be required
